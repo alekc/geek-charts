@@ -32,7 +32,18 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
 {{ toYaml .Values.env | indent 12 }}
+{{- if .Values.proxy.enabled }}
+            - name: WEBPROXY_ENABLED
+              value: "true"
+            - name: WEBPROXY_PORT
+              value: "{{ .Values.proxy.port }}"
+{{- end }}
           ports:
+{{- if .Values.proxy.enabled }}
+            - name: proxy
+              containerPort: {{ .Values.proxy.port }}
+              protocol: TCP
+{{- end }}
             - name: http
               containerPort: 9091
               protocol: TCP

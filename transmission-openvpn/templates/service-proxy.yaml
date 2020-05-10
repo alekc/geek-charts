@@ -1,0 +1,22 @@
+{{ if and .Values.proxy.enabled .Values.proxy.service.create }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "transmission-openvpn.fullname" . }}-proxy
+  labels:
+    app: {{ template "transmission-openvpn.name" . }}
+    chart: {{ template "transmission-openvpn.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.proxy.service.type }}
+  ports:
+    - port: {{ .Values.proxy.port }}
+      targetPort: {{ .Values.proxy.port }}
+      protocol: TCP
+      name: proxy
+  selector:
+    app: {{ template "transmission-openvpn.name" . }}
+    release: {{ .Release.Name }}
+  {{ end }}

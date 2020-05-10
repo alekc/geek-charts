@@ -103,6 +103,13 @@ securityContext:
     add:
       - NET_ADMIN
 
+proxy:
+  enabled: false
+  port: 8888
+  service:
+    create: true
+    type: ClusterIP
+
 # Security context for pod
 # Can be used to allow ipv6 for openvpn, because
 # some VPN providers push an ipv6 route with will fail without
